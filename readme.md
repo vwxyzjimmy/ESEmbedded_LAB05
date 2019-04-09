@@ -152,7 +152,7 @@ x90>)
 `objdump` 出來結果看似正常，但回顧一下 LAB 內容，燒錄時將資料燒入至 Flash 中，`reset_handler` 中負責把 `.text`、`.data`、`.bss` 從 Flash 搬移至 SRAM 中，但上述程式卻是在 SRAM 中執行 `reset_handler`，此時尚未執行過 `reset_handler` ，SRAM 中應是 Unpredictable。
 以 qemu 模擬觀察如下:
 指令在 SRAM 中的確都是亂碼
-![](https://github.com/vwxyzjimmy/ESEmbedded_LAB05/master/2_global_var_text/picture/gdb.JPG)
+![](https://github.com/vwxyzjimmy/ESEmbedded_LAB05/blob/master/2_global_var_text/picture/gdb.JPG)
 
 3. 由上述可知，`reset_handler`，必須在 Flash 中執行，將其餘部分的如 main.c 、blink.c 的 `.text` 搬移至 SRAM 後才能夠在 SRAM 中執行程式。
 因此分離 .text 中 startup.c 的部分至於 Flash 並且將其餘 .text 至於 SRAM 中。
