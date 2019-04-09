@@ -152,7 +152,7 @@ x90>)
 `objdump` 出來結果看似正常，但回顧一下 LAB 內容，燒錄時將資料燒入至 Flash 中，`reset_handler` 中負責把 `.text`、`.data`、`.bss` 從 Flash 搬移至 SRAM 中，但上述程式卻是在 SRAM 中執行 `reset_handler`，此時尚未執行過 `reset_handler` ，SRAM 中應是 Unpredictable。
 以 qemu 模擬觀察如下:
 指令在 SRAM 中的確都是亂碼
-![](https://i.imgur.com/PyvupQy.jpg)
+![](https://github.com/vwxyzjimmy/ESEmbedded_LAB05/picture/gdb.JPG)
 
 3. 由上述可知，`reset_handler`，必須在 Flash 中執行，將其餘部分的如 main.c 、blink.c 的 `.text` 搬移至 SRAM 後才能夠在 SRAM 中執行程式。
 因此分離 .text 中 startup.c 的部分至於 Flash 並且將其餘 .text 至於 SRAM 中。
@@ -160,7 +160,9 @@ x90>)
 如: \_\_attribute__((section(“new_section”))) void f(void);
 函數 f(void) 將被放到 new_section 段中，而不是 .text 中。
     * 參考資料
+
     [linux2.6.11（內核基礎知識，更新中](https://blog.xuite.net/tzeng015/twblog/113272142-linux2.6.11%EF%BC%88%E5%85%A7%E6%A0%B8%E5%9F%BA%E7%A4%8E%E7%9F%A5%E8%AD%98%EF%BC%8C%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89)
+
     [GNU C \_\_attribute__ 機制簡介](http://huenlil.pixnet.net/blog/post/26078382)
 
 在 `startup.c` 中加入 \_\_attribute__ ，將 `startup.c` 的 `.text` 指定至 `.startuptext` section 中如下。
