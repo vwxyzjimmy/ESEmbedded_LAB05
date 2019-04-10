@@ -12,7 +12,7 @@ HW05
 1. 將 .text 搬至 SRAM 中
 
 `stm32f4.ld`
-```ASSEMBLY=1
+```ASSEMBLY
 MEMORY
 {
 	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 1M
@@ -54,7 +54,7 @@ SECTIONS
 }
 ```
 `startup.c`
-```c=1
+```c
 #include <stdint.h>
 
 extern int main(void);
@@ -168,14 +168,14 @@ x90>)
 
 在 `startup.c` 中加入 \_\_attribute__ ，將 `startup.c` 的 `.text` 指定至 `.startuptext` section 中如下。
 `startup.c`
-```C=5
+```C
 __attribute__ ((__section__ (".startuptext"))) void reset_handler(void)
 {
 ...
 ```
 並修改 `stm32f4.ld` 固定 `.startuptext` section 於 Flash 中。
 `stm32f4.ld`
-```ASSEMBLY=1
+```ASSEMBLY
 MEMORY
 {
 	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 1M
