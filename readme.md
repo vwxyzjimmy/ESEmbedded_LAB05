@@ -6,7 +6,8 @@ See [Lecture 05](http://www.nc.es.ncku.edu.tw/course/embedded/05) for more detai
 HW05
 ===
 
-### 將 main 中的 code 搬至 SRAM 中執行並驗證
+### 實驗題目
+將在 main 中的程式於 SRAM 中執行並驗證.
 ### 實驗步驟
 1. 將 .text 搬至 SRAM 中
 
